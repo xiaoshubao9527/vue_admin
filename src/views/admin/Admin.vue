@@ -7,7 +7,10 @@
           <img src="@/assets/logo.png" alt />
           <span>Vue后台管理系统后台</span>
         </div>
-        <el-button type="info" @click="loginOut">退出</el-button>
+        <div>
+          <span style="margin-right:6px">{{username}}</span>
+          <el-button type="info" @click="loginOut">退出</el-button>
+        </div>
       </el-header>
       <el-container>
         <!--侧边栏-->
@@ -75,6 +78,7 @@ export default {
   name: 'Admin',
   data () {
     return {
+      username: '', // 记录登录的用户名
       isCollapse: false, // 控制是否收缩左侧菜单
       menuList: [], // 左侧菜单
       menuIcon: { // 左侧菜单对应的图标
@@ -90,6 +94,7 @@ export default {
   created () {
     this.getMenus()
     this.defaultActive = sessionStorage.getItem('menuItemPath') || ''
+    this.username = JSON.parse(window.sessionStorage.getItem('userInfo')).username || ''
   },
   methods: {
     // 退出登录按钮

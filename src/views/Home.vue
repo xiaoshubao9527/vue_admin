@@ -58,13 +58,10 @@ export default {
     submitForm () {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          const loginForm = this.loginForm
-          const { data } = await reqLogin({
-            username: loginForm.username,
-            password: loginForm.password
-          })
+          const { data } = await reqLogin(this.loginForm)
           if (data.meta.status === 200) {
             sessionStorage.setItem('token', data.data.token)
+            sessionStorage.setItem('userInfo', JSON.stringify(this.loginForm))
             this.$router.push({
               name: 'Admin'
             })

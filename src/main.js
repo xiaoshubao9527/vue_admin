@@ -24,10 +24,15 @@ import {
   Col,
   table,
   TableColumn,
-  Pagination
+  Pagination,
+  Switch,
+  Tooltip,
+  Dialog,
+  MessageBox
 } from 'element-ui'
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
 Vue.use(Form)
   .use(FormItem)
   .use(Input)
@@ -48,6 +53,9 @@ Vue.use(Form)
   .use(table)
   .use(TableColumn)
   .use(Pagination)
+  .use(Switch)
+  .use(Tooltip)
+  .use(Dialog)
 new Vue({
   router,
   store,

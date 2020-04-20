@@ -7,7 +7,7 @@ axios.interceptors.request.use(function (config) {
   if (config.url !== '/login') {
     config.headers = {
       Authorization: sessionStorage.getItem('token'),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'content-type': 'application/json;charset=UTF-8'
     }
   }
   return config
