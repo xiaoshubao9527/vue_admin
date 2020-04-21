@@ -14,25 +14,31 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     redirect: { name: 'Welcome' },
-    component: () => import(/* webpackChunkName: "about" */ '../views/admin/Admin.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
     meta: { requiresAuth: true },
     children: [
       {
         path: 'welcome',
         name: 'Welcome',
-        component: () => import(/* webpackChunkName: "welcome" */ '../views/admin/childrens/Welcome.vue'),
+        component: () => import(/* webpackChunkName: "welcome" */ '../views/Welcome.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: 'users',
         name: 'Users',
-        component: () => import(/* webpackChunkName: "welcome" */ '../views/admin/childrens/Users.vue'),
+        component: () => import(/* webpackChunkName: "users" */ '../views/user/Users.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: 'roles',
         name: 'Roles',
-        component: () => import(/* webpackChunkName: "welcome" */ '../views/admin/childrens/Roles.vue'),
+        component: () => import(/* webpackChunkName: "roles" */ '../views/jurisdiction/Roles.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'rights',
+        name: 'Rights',
+        component: () => import(/* webpackChunkName: "rights" */ '../views/jurisdiction/Rights.vue'),
         meta: { requiresAuth: true }
       }
     ]
@@ -47,7 +53,7 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { // 若需要加上权限的验证则需要 在路由元信息meta加入 requiresAuth： true即可s
   if (to.meta.requiresAuth && !sessionStorage.getItem('token')) { // 如果访问的路由需要验证并且没有token的话就重定向到登录页面
     next({
       name: 'Home'

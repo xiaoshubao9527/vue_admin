@@ -96,18 +96,18 @@ export default {
     border-radius: 10px;
     .login-header {
       position: absolute;
-      width: 90px;
-      height: 90px;
+      width: 130px;
+      height: 130px;
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       padding: 20px;
-      box-shadow: 0 0 10px #ccc;
+      box-shadow: 0 0 10px #eee;
       background-color: #fff;
       img {
         width: 100%;
         height: 100%;
-        background-color: #ddd;
+        background-color: #eee;
         border-radius: 50%;
       }
     }

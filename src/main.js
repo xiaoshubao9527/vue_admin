@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './assets/font/iconfont.css'
+import axios from 'axios'
 import {
   Form,
   FormItem,
@@ -28,9 +29,12 @@ import {
   Switch,
   Tooltip,
   Dialog,
-  MessageBox
+  MessageBox,
+  Tag,
+  Tree
 } from 'element-ui'
 Vue.config.productionTip = false
+Vue.prototype.$http = axios
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.use(Form)
@@ -56,6 +60,8 @@ Vue.use(Form)
   .use(Switch)
   .use(Tooltip)
   .use(Dialog)
+  .use(Tag)
+  .use(Tree)
 new Vue({
   router,
   store,
