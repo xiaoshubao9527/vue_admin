@@ -34,8 +34,6 @@
             class="upload-demo"
             :limit="8"
             :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-upload="beforeUpload"
             :file-list="pics"
             list-type="picture">
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -73,7 +71,8 @@ export default {
         goods_weight: '' // 商品重量
       },
       goods_introduce: '', // 商品描述
-      pics: [], // 商品图片
+      pics: [], // 显示的商品图片
+      uploadPics: [], // 要上传的商品图片
       previewSrcList: [],
       editGoodsrules: {
         goods_name: [
@@ -127,20 +126,14 @@ export default {
       this.isPreview = true
       this.previewSrc = file.b
     },
-    // 移除图片
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
     // 上传失败
     uploadError () {
       this.$message.error('图片上传失败')
     },
-    beforeUpload () {
-      console.log(1)
-    },
-    uploadSuccess () {
+    // 上次成功
+    uploadSuccess (result, file, fileList) {
       this.$message.success('图片上传成功')
-      console.log('上传成功', arguments)
+      this.uploadPics = fileList
     }
   }
 }
@@ -152,5 +145,21 @@ export default {
 }
 .el-input-number {
   width: 100%;
+}
+.preview-img,.preview-img .cover{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.preview-img .cover{
+  background-color: rgba(0,0,0,0.5);
+}
+.pic {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
 </style>
