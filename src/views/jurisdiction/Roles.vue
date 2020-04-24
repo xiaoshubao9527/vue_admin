@@ -14,29 +14,23 @@
         <!--下拉显示权限信息-->
         <el-table-column type="expand">
           <template slot-scope="scope">
-            <el-row :gutter="20" v-for="item1 in scope.row.children" :key="item1.id">
-            <!--一级权限-->
-            <el-col :span="5">
-              <div class="one-expant-class">
-                <el-tag closable @close="deleteExpandRoles(scope, item1.id)">{{ item1.authName }}</el-tag>
-              </div>
+            <el-row :class="['bottom',i1 === 0 ? 'top' : '']" v-for="(item1,i1) in scope.row.children" :key="item1.id">
+              <!--一级权限-->
+              <el-col :span="5">
+                  <el-tag closable @close="deleteExpandRoles(scope, item1.id)">{{ item1.authName }}</el-tag>
+              </el-col>
+              <!--权限二-->
+              <el-col :span="19">
+                  <el-row :class="[i2 === 0 ? '' : 'top']" v-for="(item2, i2) in item1.children" :key="item2.id">
+                        <el-col :span="4">
+                            <el-tag @close="deleteExpandRoles(scope, item2.id)" closable type="success">{{ item2.authName }}</el-tag>
+                        </el-col>
+                        <!--权限三-->
+                        <el-col :span="20" v-for="item3 in item2.children" :key="item3.id">
+                          <el-tag @close="deleteExpandRoles(scope, item3.id)" closable type="warning">{{ item3.authName }}</el-tag>
+                        </el-col>
+                  </el-row>
             </el-col>
-            <!--权限二-->
-            <el-col :span=19 v-for="item2 in item1.children" :key="item2.id">
-                <el-row>
-                      <el-col :span="8">
-                        <div>
-                          <el-tag closable type="success">{{ item2.authName }}</el-tag>
-                        </div>
-                      </el-col>
-                      <!--权限三-->
-                      <el-col :span="11" v-for="item3 in item2.children" :key="item3.id">
-                          <div>
-                            <el-tag closable type="warning">{{ item3.authName }}</el-tag>
-                          </div>
-                      </el-col>
-                </el-row>
-          </el-col>
         </el-row>
           </template>
         </el-table-column>
@@ -228,14 +222,16 @@ export default {
     // 点击expand删除权限
     async deleteExpandRoles (scope, rightId) {
       const { data } = await this.$http.delete(`roles/${scope.row.id}/rights/${rightId}`)
-      console.log(data)
       if (data.meta.status === 200) {
         this.$message.success(data.meta.msg)
-        scope.row = data.data
+        const currentRoleIndex = this.roles.findIndex(item => item.id === scope.row.id)
+        console.log(scope.row.id)
+        this.roles[currentRoleIndex].children = data.data
       } else {
         this.$message.error('删除权限失败')
       }
     },
+    // 递归选中所有的角色id，主要第三层chidren的id即可
     selectRolesID (roleInfo, arr) {
       if (!roleInfo.children) {
         return arr.push(roleInfo.id)
@@ -247,12 +243,11 @@ export default {
     // 点击分配角色按钮
     async allowRoles (roleInfo) {
       this.roleId = roleInfo.id
-      this.selectRolesID(roleInfo, this.defaultCheckedkeys)
       this.allowRolesDialogVisible = true
-      console.log(1)
       const { data } = await this.$http.get('/rights/tree')
       if (data.meta.status === 200) {
         this.RolesList = data.data
+        this.selectRolesID(roleInfo, this.defaultCheckedkeys)
       }
     },
     // 修改角色权限
@@ -283,11 +278,18 @@ export default {
 .el-dialog__body{
   padding-right: 30px !important;
 }
-.one-expant-class{
+.el-tag{
   margin-bottom: 10px;
 }
-.el-row{
-  border-bottom: 1px solid rgb(238, 238, 238);
-  border-top: 1px solid rgb(238, 238, 238);
+.el-row {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+}
+.bottom {
+  border-bottom: 1px solid #eee
+}
+.top {
+  border-top: 1px solid #eee
 }
 </style>

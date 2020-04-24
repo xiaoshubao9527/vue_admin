@@ -40,6 +40,30 @@ const routes = [
         name: 'Rights',
         component: () => import(/* webpackChunkName: "rights" */ '../views/jurisdiction/Rights.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'categories',
+        name: 'goodCategory',
+        component: () => import(/* webpackChunkName: "goodCategory" */ '../views/jurisdiction/GoodCategory.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'goods',
+        name: 'Goods',
+        component: () => import(/* webpackChunkName: "goods" */ '../views/jurisdiction/Goods.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'editGoods',
+        name: 'editGoods',
+        component: () => import(/* webpackChunkName: "editGoods" */ '../views/jurisdiction/EditGoods.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'detailGoods',
+        name: 'detailGoods',
+        component: () => import(/* webpackChunkName: "editGoods" */ '../views/jurisdiction/DetailGoods.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   },

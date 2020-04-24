@@ -12,6 +12,9 @@
 }
 .el-container {
   min-width: 1375px;
+  /deep/ .el-dialog__body {
+    padding-right: 30px !important;
+  }
 }
 li {
   list-style: none;

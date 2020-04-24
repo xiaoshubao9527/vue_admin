@@ -325,9 +325,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.users {
-  /deep/ .el-dialog__body {
-    padding-right: 30px !important;
-  }
-}
 </style>

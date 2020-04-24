@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './assets/font/iconfont.css'
 import axios from 'axios'
+import ZkTable from 'vue-table-with-tree-grid'
 import {
   Form,
   FormItem,
@@ -31,7 +32,12 @@ import {
   Dialog,
   MessageBox,
   Tag,
-  Tree
+  Tree,
+  Cascader,
+  PageHeader,
+  Image,
+  InputNumber,
+  Upload
 } from 'element-ui'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
@@ -62,6 +68,12 @@ Vue.use(Form)
   .use(Dialog)
   .use(Tag)
   .use(Tree)
+  .use(Cascader)
+  .use(PageHeader)
+  .use(Image)
+  .use(InputNumber)
+  .use(Upload)
+Vue.component('zk-table', ZkTable)
 new Vue({
   router,
   store,
