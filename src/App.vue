@@ -34,4 +34,10 @@ a {
     margin-top: 16px;
   }
 }
+ .el-cascader__dropdown {
+    height: 260px !important;
+  }
+  .el-cascader-panel {
+    height: 100% !important;
+  }
 </style>

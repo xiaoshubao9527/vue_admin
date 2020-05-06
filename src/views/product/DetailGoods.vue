@@ -9,6 +9,7 @@
           <div>商品价格：<span>{{goodsInfo.goods_price}}</span></div>
           <div>商品数量：<span>{{goodsInfo.goods_number}}</span></div>
           <div>商品重量：<span>{{goodsInfo.goods_weight}}</span></div>
+          <div>商品分类：<span>{{goodsInfo.goods_cat}}</span></div>
           <div>商品创建时间：<span>{{new Date(goodsInfo.add_time).toLocaleString()}}</span></div>
           <div>
               <el-image
@@ -41,8 +42,16 @@ export default {
       const { data } = await this.$http.get('/goods/' + this.$route.query.id)
       if (data.meta.status === 200) {
         this.goodsInfo = data.data
-        console.log(data)
         this.previewSrcList = data.data.pics.map(img => img.pics_big_url)
+        const arr = []
+        this.goodsInfo.goods_cat.split(',').forEach(async item => {
+          const { data } = await this.$http.get('/categories/' + item)
+          if (data.meta.status === 200) {
+            arr.push(data.data)
+          }
+          this.goodsInfo.goods_cat = arr.sort((a, b) => a.cat_id - b.cat_id).map(item => item.cat_name)
+          this.goodsInfo.goods_cat = this.goodsInfo.goods_cat.join('/')
+        })
       } else {
         this.$message.error('获取商品失败')
       }

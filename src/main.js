@@ -5,6 +5,10 @@ import store from './store'
 import './assets/font/iconfont.css'
 import axios from 'axios'
 import ZkTable from 'vue-table-with-tree-grid'
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+// import 'echarts-gl'
 import {
   Form,
   FormItem,
@@ -37,7 +41,14 @@ import {
   PageHeader,
   Image,
   InputNumber,
-  Upload
+  Upload,
+  Alert,
+  Tabs,
+  TabPane,
+  Steps,
+  Step,
+  Select,
+  Option
 } from 'element-ui'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
@@ -73,7 +84,15 @@ Vue.use(Form)
   .use(Image)
   .use(InputNumber)
   .use(Upload)
-Vue.component('zk-table', ZkTable)
+  .use(Alert)
+  .use(Tabs)
+  .use(TabPane)
+  .use(Steps)
+  .use(Step)
+  .use(Select)
+  .use(Option)
+Vue.component('zk-table', ZkTable) // 注册全局的ZkTable组件
+Vue.component('v-chart', ECharts)
 new Vue({
   router,
   store,

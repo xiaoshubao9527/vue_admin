@@ -44,25 +44,43 @@ const routes = [
       {
         path: 'categories',
         name: 'goodCategory',
-        component: () => import(/* webpackChunkName: "goodCategory" */ '../views/jurisdiction/GoodCategory.vue'),
+        component: () => import(/* webpackChunkName: "goodCategory" */ '../views/product/GoodCategory.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: 'goods',
         name: 'Goods',
-        component: () => import(/* webpackChunkName: "goods" */ '../views/jurisdiction/Goods.vue'),
+        component: () => import(/* webpackChunkName: "goods" */ '../views/product/Goods.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: 'editGoods',
         name: 'editGoods',
-        component: () => import(/* webpackChunkName: "editGoods" */ '../views/jurisdiction/EditGoods.vue'),
+        component: () => import(/* webpackChunkName: "editGoods" */ '../views/product/EditGoods.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: 'detailGoods',
         name: 'detailGoods',
-        component: () => import(/* webpackChunkName: "editGoods" */ '../views/jurisdiction/DetailGoods.vue'),
+        component: () => import(/* webpackChunkName: "detailGoods" */ '../views/product/DetailGoods.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'params',
+        name: 'Params',
+        component: () => import(/* webpackChunkName: "params" */ '../views/product/Params.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'orders',
+        name: 'Orders',
+        component: () => import(/* webpackChunkName: "orders" */ '../views/order/Orders.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'reports',
+        name: 'Reports',
+        component: () => import(/* webpackChunkName: "orders" */ '../views/report/Reports.vue'),
         meta: { requiresAuth: true }
       }
     ]

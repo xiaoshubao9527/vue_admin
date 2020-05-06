@@ -16,7 +16,7 @@
           </el-input>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary">添加商品</el-button>
+          <el-button type="primary" @click="() => this.$router.push({name: 'editGoods'})">添加商品</el-button>
         </el-col>
       </el-row>
       <!--table表格区域-->
@@ -34,7 +34,7 @@
             <template slot-scope="scope">
                 <el-button size="small" type="info" @click="detailGoods(scope)">详情</el-button>
                 <el-button size="small" type="primary" @click="deitGoods(scope)">编辑</el-button>
-                <el-button size="small" type="danger">删除</el-button>
+                <el-button size="small" type="danger" @click="deleteGoods(scope)">删除</el-button>
             </template>
         </el-table-column>
       </el-table>
@@ -107,6 +107,29 @@ export default {
         query: {
           id: good.row.goods_id
         }
+      })
+    },
+    // 删除商品
+    async deleteGoods (good) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data } = await this.$http.delete('/goods/' + good.row.goods_id)
+        console.log(data)
+        if (data.meta.status === 200) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.getGoods()
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     }
   }

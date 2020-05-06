@@ -59,12 +59,16 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           const { data } = await reqLogin(this.loginForm)
+          console.log(data)
           if (data.meta.status === 200) {
             sessionStorage.setItem('token', data.data.token)
-            sessionStorage.setItem('userInfo', JSON.stringify(this.loginForm))
+            sessionStorage.setItem('userInfo', JSON.stringify(data.data))
             this.$router.push({
               name: 'Admin'
             })
+            this.$message.success(data.meta.msg)
+          } else {
+            this.$message.error(data.meta.msg)
           }
         } else {
           return false

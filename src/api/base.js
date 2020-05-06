@@ -3,7 +3,7 @@ import axios from 'axios'
 axios.interceptors.request.use(function (config) {
   config.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
   // config.withCredentials = true // 允许携带token ,这个是解决跨域产生的相关问题
-  config.timeout = 1000
+  config.timeout = 3000
   if (config.url !== '/login') {
     config.headers = {
       Authorization: sessionStorage.getItem('token'),

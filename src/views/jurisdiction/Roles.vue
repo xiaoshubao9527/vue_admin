@@ -225,13 +225,12 @@ export default {
       if (data.meta.status === 200) {
         this.$message.success(data.meta.msg)
         const currentRoleIndex = this.roles.findIndex(item => item.id === scope.row.id)
-        console.log(scope.row.id)
         this.roles[currentRoleIndex].children = data.data
       } else {
         this.$message.error('删除权限失败')
       }
     },
-    // 递归选中所有的角色id，主要第三层chidren的id即可
+    // 递归选中所有的角色id，主要第三层chidren的id即可 来更改用户的权限
     selectRolesID (roleInfo, arr) {
       if (!roleInfo.children) {
         return arr.push(roleInfo.id)
@@ -243,15 +242,16 @@ export default {
     // 点击分配角色按钮
     async allowRoles (roleInfo) {
       this.roleId = roleInfo.id
-      this.allowRolesDialogVisible = true
       const { data } = await this.$http.get('/rights/tree')
       if (data.meta.status === 200) {
         this.RolesList = data.data
         this.selectRolesID(roleInfo, this.defaultCheckedkeys)
+        this.allowRolesDialogVisible = true
       }
     },
     // 修改角色权限
     async updateRoles () {
+      // 获取半选中和全选中的id
       const rids = [...this.$refs.tree.getCheckedKeys(), ...this.$refs.tree.getHalfCheckedKeys()].join(',')
       const { data } = await this.$http.post(`roles/${this.roleId}/rights`, { rids })
       if (data.meta.status === 200) {

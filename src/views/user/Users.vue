@@ -63,7 +63,7 @@
             :enterable="false"
             placement="top-start"
           >
-            <el-button size="small" type="danger" icon="el-icon-setting"></el-button>
+            <el-button size="small" type="danger" icon="el-icon-setting" @click="setUserPower(scope.row)"></el-button>
           </el-tooltip>
           </template>
         </el-table-column>
@@ -143,6 +143,32 @@
         <el-button type="primary" @click="updateUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+    <!--设置用户权限-->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="setUserPowerVisibile"
+      width="30%"
+    >
+    <div class="set-power">
+      <div>当前用户 : {{ setUserPowerData.currentUsername }}</div>
+      <div>当前角色名 : {{ setUserPowerData.currentRole }}</div>
+      <div>
+        <span>分类新角色 : </span>
+        <el-select v-model="setUserPowerData.selectRole" placeholder="请选择">
+          <el-option
+            v-for="item in roles"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </div>
+    </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setUserPowerVisibile = false">取 消</el-button>
+        <el-button type="primary" @click="setUserPowerSure">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,6 +194,15 @@ export default {
       }
     }
     return {
+      roleId: 0, // 用户id
+      roles: [], // 全部角色
+      // 分配角色窗口的数据
+      setUserPowerData: {
+        currentUsername: '',
+        currentRole: '',
+        selectRole: ''
+      },
+      setUserPowerVisibile: false, // 控制设置权限的窗口
       users: [], // 用户列表
       total: 0, // 总的用户数量
       userParams: {
@@ -319,10 +354,39 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    async getRoles () {
+      const { data } = await this.$http.get('/roles')
+      if (data.meta.status === 200) {
+        this.roles = data.data
+      }
+    },
+    // 点击设置用户按钮
+    setUserPower (user) {
+      this.roleId = user.id
+      this.setUserPowerData.currentUsername = user.username
+      this.setUserPowerData.currentRole = user.role_name
+      this.setUserPowerVisibile = true
+      this.getRoles()
+    },
+    async setUserPowerSure () {
+      const { data } = await this.$http.put(`users/${this.roleId}/role`, { rid: this.setUserPowerData.selectRole })
+      if (data.meta.status === 200) {
+        this.$message.success(data.meta.msg)
+        this.getUsers()
+        this.setUserPowerVisibile = false
+      } else {
+        this.$message.error(data.meta.msg)
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.set-power {
+  div {
+    margin-bottom: 10px;
+  }
+}
 </style>
